@@ -142,7 +142,45 @@ def get_dataset(
         itos          (dict[int, str])
     """
     # TODO 1.1: implement
-    raise NotImplementedError
+    os.makedirs(data_root, exist_ok = True)
+    file_path = os.path.join(data_root, "input.txt")
+    if os.path.isfile(file_path):
+        pass
+    else:
+        urllib.request.urlretrieve(DATA_URL, file_path)
+
+    text = ""
+
+    with open(file_path, 'r') as file:
+        text = file.read()
+
+    chars = sorted(set(text))
+    vocab_size = len(chars)
+    stoi = {}
+    itos = {}
+    for i,char in enumerate(chars):
+        stoi[char] = i
+        itos[i] = char
+    
+    encode = []
+    for ch in text:
+        encode.append(stoi[ch])
+
+    data = torch.tensor(encode, dtype=torch.long)
+
+    idx = int(len(data)*train_frac)
+    train = data[:idx]
+    val = data[idx:]
+
+    train_dataset = CharDataset(train,block_size)
+    val_dataset = CharDataset(val,block_size)
+
+    return train_dataset, val_dataset, vocab_size, stoi, itos 
+
+
+
+    
+    # raise NotImplementedError
 
 
 # ---------------------------------------------------------------------------
