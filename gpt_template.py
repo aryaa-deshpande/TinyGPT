@@ -496,7 +496,82 @@ def train_model(
     dict : the training log (same as what is written to log_path)
     """
     # TODO 1.5: implement
-    raise NotImplementedError
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    train_loader = DataLoader(train_dataset, batch_size=config["batch_size"], shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=config["batch_size"], shuffle=False)
+
+    optimizer = torch.optim.AdamW(model.parameters(), lr=config["lr"], weight_decay=1e-2)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=config["epochs"])
+
+    history = []
+
+    for epoch in range(1, config["epochs"] + 1):
+        model.train()
+        train_loss = 0.0
+        start_time = time.time()
+        step = 0
+
+        for x, y in train_loader:
+            if step >= config["steps_per_epoch"]:
+                break
+            optimizer.zero_grad()
+            logits = model(x)
+            B, T, V = logits.shape
+            loss = F.cross_entropy(logits.reshape(B*T, V), y.reshape(B*T))
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            train_loss += loss.item()
+            step += 1
+
+        train_loss /= step
+        scheduler.step()
+
+        model.eval()
+        val_loss = 0.0
+        val_steps = 0
+        with torch.no_grad():
+            for x, y in val_loader:
+                if val_steps >= 50:
+                    break
+                logits = model(x)
+                B, T, V = logits.shape
+                loss = F.cross_entropy(logits.reshape(B*T, V), y.reshape(B*T))
+                val_loss += loss.item()
+                val_steps += 1
+        val_loss /= val_steps
+
+        epoch_time = time.time() - start_time
+        history.append({
+            "epoch": epoch,
+            "train_loss": round(train_loss, 4),
+            "val_loss": round(val_loss, 4),
+            "epoch_time_sec": round(epoch_time, 4)
+        })
+
+        if epoch in CHECKPOINT_EPOCHS:
+            torch.save({
+                "model_state_dict": model.state_dict(),
+                "config": {k: config[k] for k in ["block_size","embed_dim","num_heads","num_layers","mlp_dim","dropout"]},
+                "epoch": epoch,
+            }, os.path.join(checkpoint_dir, f"gpt_epoch_{epoch}.pt"))
+
+    total_params = sum(p.numel() for p in model.parameters())
+    log = {
+        "seed": SEED,
+        "config": {k: config[k] for k in ["block_size","embed_dim","num_heads","num_layers","mlp_dim","dropout","lr","batch_size","epochs","steps_per_epoch"]},
+        "history": history,
+        "final_val_loss": round(history[-1]["val_loss"], 4),
+        "total_params": total_params
+    }
+
+    with open(log_path, "w") as f:
+        json.dump(log, f, indent=2)
+
+    return log
+
+
+    # raise NotImplementedError
 
 
 # ---------------------------------------------------------------------------
