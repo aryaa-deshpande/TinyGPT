@@ -394,7 +394,15 @@ class GPT(nn.Module):
         super().__init__()
         self.block_size = block_size
         # TODO 1.4 – __init__: create all sub-modules and tie weights
-        raise NotImplementedError
+        self.token_embedding = nn.Embedding(vocab_size,embed_dim)
+        self.pos_embedding = nn.Embedding(block_size, embed_dim)
+        self.drop = nn.Dropout(dropout)
+        self.blocks = nn.ModuleList([GPTBlock(embed_dim,num_heads,block_size,mlp_dim,dropout)for _ in range(num_layers)])
+        self.norm = nn.LayerNorm(embed_dim)
+        self.head = nn.Linear(embed_dim,vocab_size,bias=False)
+        self.head.weight = self.token_embedding.weight
+
+        # raise NotImplementedError
 
     def forward(self, idx: torch.Tensor) -> torch.Tensor:
         # TODO 1.4 – forward:
@@ -402,7 +410,20 @@ class GPT(nn.Module):
         # 2. Compute token and position embeddings; add them; apply dropout
         # 3. Pass through each block in self.blocks
         # 4. Apply self.norm and self.head
-        raise NotImplementedError
+        B,T = idx.shape[:2]
+        assert T <= self.block_size
+        token_embedding = self.token_embedding(idx)
+        pos = torch.arange(T)
+        pos_embeddings = self.pos_embedding(pos)
+        x = self.drop(token_embedding + pos_embeddings)
+
+        for block in self.blocks:
+            x = block(x)
+        
+        return self.head(self.norm(x))
+
+
+        # raise NotImplementedError
 
 
 def build_model(config: dict, vocab_size: int) -> "GPT":
