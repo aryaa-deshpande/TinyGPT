@@ -1,0 +1,23 @@
+{
+  "checkpoint_1": {
+    "epoch": 1,
+    "prompt": "HAMLET:\n",
+    "temperature_0.5": "HAMLET:\narr e is woub heaath he ss llaro thay han sitit the rs r aceiit iiit h theeiee har inc cd ee h itn s s th e d thaao cmeoor al d n t t t nd r nous thanhanthat ar y r s son t s iie ma.. d yoo r roor the n th is ino thour in we r t th th r th me y d the tht y s s theoo res t oel r d g sn s e oth t te a",
+    "temperature_1.0": "HAMLET:\nsle TyI risinlsey ot f\nopt aaIs osiilager soweiIlr nth t mOim uhe tha dN\nedusathuo po\n, am  reio nhuis y o ooSaryre soms s Ryrce fh n,urri\nurffhout,\n$nga no ddbo d nand ted Weree y ioLuHhard! ed arel &dd Ie o arandeAoieg aer, thas s wao e id IT nlbOy c: theosce i\nE ld y mm t, Dd l f tine ben..r t3d ",
+    "temperature_1.5": "HAMLET:\nmrCo a:h  y otemqw aE,agIilthe leomAlicnjneof-\nancbint,o. -eOOb\nenV\niOkrakSm cks ms smno I te rlESF\nI\nSoOIoPno Da\naLCfwPioId,-Scro\no aDgIe eraD reiim AAag,top b feburlm,,c I:::ulit tFt  h,idd nm E.\n  oaSnRoffwhe mayirbbkSlm,AN teemgi,r EWgOCte,swntdctmiuesrd ionkisthiniialWkta.\ny ggog rC nOEPthekmyc"
+  },
+  "checkpoint_3": {
+    "epoch": 3,
+    "prompt": "HAMLET:\n",
+    "temperature_0.5": "HAMLET:\nLat nere I we these the the s be s this mane he t inde se ange thilas mowithereng t,\nT the atheelin t s tesorr thes ine l me wend m ge ane the and thang t fis tou nghe bindise s bin t toure be t t d, the in s nd we the the avese bousean he the t mend thalle be st d t te.\nI the the nd t thy han me th",
+    "temperature_1.0": "HAMLET:\nOOyeandxady tan mers athho Pd , korimiowhaG my rn Cy ot,\nTceeouy.\nA\nI fAce fo mar war tn orer bb k wM h':\nW,\nLlar we ad n d bultulas tharas frun maveatlerd m f!or midid,\nitonaint, iro thond myove wg:\nnghZ\nCs lee sang D bler t alrn losthache\nNse-e s alle nde belear nd, f ge m ry s gin.\nEepwedoecit ba",
+    "temperature_1.5": "HAMLET:\nOy's\nIEouyocWiy ad o, y t! dgcopinWheaangi \nSda, thiyy, b,UUbye lye n ndenefr hpatGacy,\n\nMonRao DenZbantowhealCNus uponor w. Do loGldW SsliUMa, ow, Pa, trviovee I coousrtavvell has,\nuu,rAmRsD:\nERuve s: mRnggITes bis dodAW kan vRuulonas!f keDes my ay mxsHedifd.\n, k\neper oos,eiverI,Eitn ts:the.Sa, LDo"
+  },
+  "checkpoint_5": {
+    "epoch": 5,
+    "prompt": "HAMLET:\n",
+    "temperature_0.5": "HAMLET:\nThe sele pr arat e he chasther t t thar toun athe ond out toure thereed t and thetount hon mouse he ber mathy the at the he tou g nd se be there at me the we the and there therer g, ond, ngor y de the te the s me t thinge the t s onge, the, thore the wind thas menge ce s athe me be mar d t bethin wo",
+    "temperature_1.0": "HAMLET:\nLac d boripoumo y fet lin Y, t fereEDore meeeothands.\nMat he.\n\n\nTIndas nnarainsh pted wiel tow; sthil tathithe! nowomyood dy CYrnoe sgarsn-noroleareit s bosve\nY pe r bR eng, thisy fastafre thather oange ost mat, d hangldes nd wer,\nise mendithagr dods!\nAthe d al y hichoned me, ben t werte.\nMothithery",
+    "temperature_1.5": "HAMLET:\nKtu,No\nSRDwoWT YYil kooerrfo E Yo',ftarylss bGtand bifeweidtceOh,\n'ot!n! hos meV?\nEUZY.\nRSRADfbdvenoUMEOtt dthavvF stomo. sFd, nvi$epis:\n\nAGodeEdOL, Wotedasovul;, gorte\nA whechey, g,\nLe INUpri& e\n'l.\nThr.\nH-,ioPBTo!!\nANEn:\nNNCOOOODe.\nOChe, g ttGIIEranqethoIENans.\nZVotattay Ihary?Ruk, gag'\n, tit, sel"
+  }
+}
