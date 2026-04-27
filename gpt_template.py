@@ -238,8 +238,8 @@ class CausalSelfAttention(nn.Module):
         self.out_proj = nn.Linear(embed_dim, embed_dim, bias=False)
         self.attn_drop = nn.Dropout(dropout)
         self.resid_drop = nn.Dropout(dropout)
-        self.mask = self.register_buffer("mask",torch.tril(torch.ones(block_size,block_size)).reshape(1,1,block_size,block_size))
-        raise NotImplementedError
+        self.register_buffer("mask",torch.tril(torch.ones(block_size,block_size)).reshape(1,1,block_size,block_size))
+        # raise NotImplementedError
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # TODO 1.2 – forward:
