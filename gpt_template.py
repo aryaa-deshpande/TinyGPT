@@ -229,6 +229,16 @@ class CausalSelfAttention(nn.Module):
         # store self.num_heads, self.head_dim (= embed_dim // num_heads), self.embed_dim
         # create self.qkv, self.out_proj, self.attn_drop, self.resid_drop
         # create the causal mask and register it as a buffer named "mask"
+        assert embed_dim % num_heads == 0
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        self.embed_dim = embed_dim
+
+        self.qkv = nn.Linear(embed_dim, 3*embed_dim, bias=False)
+        self.out_proj = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.attn_drop = nn.Dropout(dropout)
+        self.resid_drop = nn.Dropout(dropout)
+        self.mask = self.register_buffer("mask",torch.tril(torch.ones(block_size,block_size)).reshape(1,1,block_size,block_size))
         raise NotImplementedError
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -241,7 +251,24 @@ class CausalSelfAttention(nn.Module):
         # 6. Softmax over the last dimension, then apply self.attn_drop
         # 7. Multiply by v, reshape back to (B, T, C)
         # 8. Apply self.out_proj and self.resid_drop
-        raise NotImplementedError
+        B,T,C = x.shape
+        q,k,v = self.qkv(x).split(self.embed_dim, dim=-1)
+        reshape_q = q.reshape(B,self.num_heads,T,self.head_dim)
+        reshape_k = k.reshape(B,self.num_heads,T,self.head_dim)
+        reshape_v = v.reshape(B,self.num_heads,T,self.head_dim)
+
+        scaled_dot_product = (reshape_q @ reshape_k.transpose(-2,-1)) / (self.head_dim)**0.5
+        attn = scaled_dot_product.masked_fill(self.mask[:,:,:T,:T] == 0, float('-inf'))
+        attn_weights = F.softmax(attn,dim=-1)
+        attn_weights = self.attn_drop(attn_weights)
+
+        out_proj = (attn_weights @ reshape_v ).reshape(B,T,C)
+        out_proj = self.resid_drop(self.out_proj(out_proj))
+
+        return out_proj
+
+        # raise NotImplementedError
+
 
 
 # ---------------------------------------------------------------------------
