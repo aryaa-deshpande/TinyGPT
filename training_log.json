@@ -1,0 +1,49 @@
+{
+  "seed": 42,
+  "config": {
+    "block_size": 128,
+    "embed_dim": 64,
+    "num_heads": 4,
+    "num_layers": 4,
+    "mlp_dim": 128,
+    "dropout": 0.1,
+    "lr": 0.0003,
+    "batch_size": 64,
+    "epochs": 5,
+    "steps_per_epoch": 200
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 10.0341,
+      "val_loss": 3.1279,
+      "epoch_time_sec": 27.9636
+    },
+    {
+      "epoch": 2,
+      "train_loss": 3.239,
+      "val_loss": 2.8178,
+      "epoch_time_sec": 27.584
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.9736,
+      "val_loss": 2.718,
+      "epoch_time_sec": 28.4382
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.8663,
+      "val_loss": 2.6792,
+      "epoch_time_sec": 28.0844
+    },
+    {
+      "epoch": 5,
+      "train_loss": 2.8213,
+      "val_loss": 2.6699,
+      "epoch_time_sec": 28.3274
+    }
+  ],
+  "final_val_loss": 2.6699,
+  "total_params": 145344
+}
