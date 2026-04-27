@@ -615,7 +615,22 @@ def generate(
         str : full generated text (prompt + new characters)
     """
     # TODO 1.6: implement
-    raise NotImplementedError
+    model.eval()
+    context = [stoi[c] for c in prompt]
+
+    with torch.no_grad():
+        for _ in range(max_new_tokens):
+            context_tensor = torch.tensor(context, dtype=torch.long).unsqueeze(0)
+            context_tensor = context_tensor[:, -model.block_size:]
+            logits = model(context_tensor)
+            logits = logits[:, -1, :] / temperature
+            probs = F.softmax(logits, dim=-1)
+            next_token = torch.multinomial(probs, num_samples=1).item()
+            context.append(next_token)
+
+    return ''.join([itos[i] for i in context])
+
+    # raise NotImplementedError
 
 
 # ---------------------------------------------------------------------------
